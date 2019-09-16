@@ -1,2 +1,2 @@
-# smartcity-k8s
-smartcity-k8s
+# k8s
+用于同步 k8s.gcr.io 镜像到阿里云到镜像服务器。
