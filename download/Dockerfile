@@ -1,2 +1,2 @@
-FROM k8s.gcr.io/ingress-nginx/controller:v0.44.0@sha256:3dd0fac48073beaca2d67a78c746c7593f9c575168a17139a9955a82c63c4b9a
+FROM  docker.io/jettech/kube-webhook-certgen:v1.5.1
 MAINTAINER tao.mei <4836266@qq.com>
