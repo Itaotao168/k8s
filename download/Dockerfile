@@ -1,2 +1,2 @@
-FROM  kubernetesui/metrics-scraper:v1.0.6
+FROM  kubernetesui/dashboard:v2.2.0
 MAINTAINER tao.mei <4836266@qq.com>
