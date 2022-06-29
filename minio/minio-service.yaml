@@ -1,0 +1,39 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: minio
+  namespace: default
+data:
+  user: root
+  password: Itaotao@1688
+[root@ecs-141317-0001 minio]# cat minio-service.yaml
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio-headless
+  namespace: default
+  labels:
+    app: minio
+spec:
+  clusterIP: None
+  ports:
+    - port: 9000
+      name: minio
+  selector:
+    app: minio
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio-service
+  namespace: default
+spec:
+  type: NodePort
+  ports:
+    - port: 9000
+      targetPort: 9000
+      nodePort: 30900
+  selector:
+    app: minio
