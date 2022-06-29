@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: minio
+  namespace: default
+spec:
+  serviceName: minio-headless
+  selector:
+    matchLabels:
+      app: minio
+  replicas: 4
+  template:
+    metadata:
+      labels:
+        app: minio
+    spec:
+      containers:
+      - name: minio
+        env:
+        - name: MINIO_ACCESS_KEY
+          valueFrom:
+            configMapKeyRef:
+              name: minio
+              key: user
+        - name: MINIO_SECRET_KEY
+          valueFrom:
+            configMapKeyRef:
+              name: minio
+              key: password
+        image: registry.cn-hangzhou.aliyuncs.com/k8s_itaotao/minio:RELEASE.2021-01-05T05-22-38Z
+        imagePullPolicy: IfNotPresent
+        args:
+        - server
+        - http://minio-{0...3}.minio-headless.default.svc.cluster.local/data
+        ports:
+        - containerPort: 9000
+        volumeMounts:
+        - name: data
+          mountPath: /data
+      imagePullSecrets:
+        - name: aliyun-registry
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes:
+        - ReadWriteMany
+      volumeMode: Filesystem
+      resources:
+        requests:
+          storage: 10Mi
+      storageClassName: managed-nfs-storage
